@@ -2,26 +2,36 @@
     <div class="container">
         <div class="container__card">
             <div class="container__card__user-ID">
-                <span>{{ userId }}</span>
+                <span>User ID: {{ userID }}</span>
                 <div class="container__card__content__buttons">
                     <div class="fab edit">&#43;</div>
                     <div class="fab delete">&#43;</div>
                 </div>
             </div>
             <div class="container__card__content">
-                <h3 class="container__card__content__title">Descrição da funcionalidade deve vir abaixo do título do
-                    caso de uso.</h3>
-                <p class="container__card__content__body">Mussum ipsum cacilds, vidis litro abertis. Consetis
-                    adipiscings elitis. Pra lá ,
-                    depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum
-                    girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo.</p>
+                <h3 class="container__card__content__title">{{ title }}</h3>
+                <p class="container__card__content__body">{{ body }}</p>
             </div>
         </div>
     </div>
 </template>
 <script>
 export default {
-    name: 'PostComp'
+    name: 'PostComp',
+
+    props: {
+        userID: {
+            type: Number
+        },
+        title: {
+            default: '',
+            type: String
+        },
+        body: {
+            default: '',
+            type: String
+        },
+    }
 }
 </script>
 

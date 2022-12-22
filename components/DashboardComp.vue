@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <PostComp v-for="n in user" :userId="n.userId" :key="n.userId"
+        <PostComp v-for="n in user" :userID="n.userId" :title="n.title" :body="n.body" :key="n.userId"
             :class="{ 'red': n % 2 == 0, 'gray': n % 2 != 0 }" />
     </div>
 </template>
