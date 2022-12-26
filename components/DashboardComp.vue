@@ -6,12 +6,12 @@
             </div>
             <div class="container__card" v-else>
                 <span class="btn close" @click="show = !show"> </span>
-                <form class="container__card__edit-form">
-                    <input class="container__card__edit-form__title" v-model="newItemUserId" placeholder="Enter user" />
-                    <input class="container__card__edit-form__title" v-model="newItemTitle" placeholder="title" />
-                    <textarea class="container__card__edit-form__body" v-model="newItemBody"
+                <form class="container__card__new-item-form">
+                    <input class="container__card__new-item-userid" v-model="newItemUserId" placeholder="Enter user" />
+                    <input class="container__card__new-item-title" v-model="newItemTitle" placeholder="title" />
+                    <textarea class="container__card__new-item-body" v-model="newItemBody"
                         placeholder="body"></textarea>
-                    <p class="container__card__edit-form_error">{{ this.error }}</p>
+                    <p class="container__card__new-item-error">{{ this.error }}</p>
                     <div class="save" @click="addItem()">Add Item</div>
                 </form>
             </div>
@@ -96,6 +96,18 @@ export default {
     margin-left: auto;
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.container__card__new-item-form {
+    padding: 20px;
+    min-height: 200px;
+    display: grid;
+    gap: 40px;
+    width: 100%;
+}
+
+.container__card__new-item-body {
+    height: 150px;
 }
 
 .btn {
