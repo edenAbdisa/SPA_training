@@ -16,8 +16,8 @@
                 </div>
             </div>
             <div class="container__card__content" v-if="show">
-                <h3 class="container__card__content__title">{{ title }}</h3>
-                <p class="container__card__content__body">{{ body }}</p>
+                <h3 class="container__card__content__title">{{ capitalized(title) }}</h3>
+                <p class="container__card__content__body">{{ capitalized(body) }}</p>
             </div>
             <form class="container__card__edit-form" v-else>
                 <input class="container__card__edit-form__title" v-model="titleUpdated" :placeholder=title />
@@ -71,6 +71,11 @@ export default {
                     this.show = true
                     this.error = err;
                 });
+        },
+        capitalized(sentence) {
+            const capitalizedFirst = sentence[0].toUpperCase();
+            const rest = sentence.slice(1);
+            return capitalizedFirst + rest;
         }
     }
 
