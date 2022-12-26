@@ -4,22 +4,45 @@
             <div class="container__card__user-ID">
                 <span>User ID: {{ userID }}</span>
                 <div class="container__card__content__buttons">
-                    <div class="fab edit">&#43;</div>
-                    <div class="fab delete">&#43;</div>
+                    <div class="fab" @click="show = !show" v-if="show">
+                        <span class="edit"></span>
+                    </div>
+                    <div class="fab " @click="$emit('deleteItem')" v-if="show">
+                        <span class="delete"></span>
+                    </div>
+                    <div class="fab " @click="show = !show" v-if="!show">
+                        <span class="close"></span>
+                    </div>
                 </div>
             </div>
-            <div class="container__card__content">
+            <div class="container__card__content" v-if="show">
                 <h3 class="container__card__content__title">{{ title }}</h3>
                 <p class="container__card__content__body">{{ body }}</p>
             </div>
+            <form class="container__card__edit-form" v-else>
+                <input class="container__card__edit-form__title" v-model="titleUpdated" :placeholder=title />
+                <textarea class="container__card__edit-form__body" v-model="bodyUpdated" :placeholder="body"></textarea>
+                <p class="container__card__edit-form_error">{{ this.error }}</p>
+                <div class="save" @click="edit(id, index)">Save</div>
+            </form>
         </div>
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     name: 'PostComp',
-
+    data: () => ({
+        show: true,
+        error: "",
+        titleUpdated: "",
+        bodyUpdated: ""
+    }),
     props: {
+        id: {
+            type: Number
+        },
         userID: {
             type: Number
         },
@@ -31,18 +54,39 @@ export default {
             default: '',
             type: String
         },
+        index: {
+            type: Number
+        }
+    },
+    methods: {
+        edit(id, index) {
+            this.$emit('editItem', this.titleUpdated, this.bodyUpdated, id, index)
+            axios.put('https://jsonplaceholder.typicode.com/posts/' + id, {
+                title: this.titleToBeUpdated,
+                body: this.bodyToBeUpdated
+            })
+                .then((response) => {
+                    this.show = true
+                }).catch(err => {
+                    this.show = true
+                    this.error = err;
+                });
+        }
     }
+
 }
 </script>
 
 <style>
 .container__card {
+    width: 100%;
     display: inline-block;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .15);
     margin: 20px;
     position: relative;
     margin-bottom: 50px;
     background-color: #f5f5dc63;
+
 }
 
 .container__card:hover {
@@ -84,5 +128,49 @@ export default {
     background: #0066A2;
     -webkit-transition: -webkit-transform .2s ease-in-out;
     transition: transform .2s ease-in-out;
+}
+
+.edit {
+    content: url("~assets/icons/white-edit-icon.png");
+    padding: 4px 4px;
+    width: 40px;
+    height: 40px;
+}
+
+.delete {
+    content: url("~assets/icons/white-delete-icon.png");
+    padding: 4px 4px;
+    width: 40px;
+    height: 40px;
+}
+
+.close {
+    padding: 4px 4px;
+    width: 40px;
+    height: 40px;
+}
+
+.container__card__edit-form {
+    padding: 20px;
+    min-height: 200px;
+    display: grid;
+    gap: 40px;
+    width: 100%;
+}
+
+.save {
+    width: 200px;
+    background: #0066A2;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+
+}
+
+.container__card__edit-form__body {
+    height: 150px;
 }
 </style>
