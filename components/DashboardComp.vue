@@ -7,12 +7,15 @@
             <div class="container__card" v-else>
                 <span class="btn close" @click="show = !show"> </span>
                 <form class="container__card__new-item-form">
-                    <input class="container__card__new-item-userid" v-model="newItemUserId" placeholder="Enter user" />
-                    <input class="container__card__new-item-title" v-model="newItemTitle" placeholder="title" />
+                    <input class="container__card__new-item-userid" v-model.number="newItemUserId" type="number"
+                        placeholder="Enter user ID" />
+                    <input class="container__card__new-item-title" v-model="newItemTitle" placeholder="Title " />
                     <textarea class="container__card__new-item-body" v-model="newItemBody"
-                        placeholder="body"></textarea>
+                        placeholder="Body"></textarea>
                     <p class="container__card__new-item-error">{{ this.error }}</p>
-                    <div class="save" @click="addItem()">Add Item</div>
+                    <button class="save" @click="addItem()"
+                        :disabled='newItemUserId == 0 || newItemTitle === "" || newItemBody === ""'>Add
+                        Item</button>
                 </form>
             </div>
         </div>
@@ -30,7 +33,7 @@ export default {
         newItemUserId: 0,
         newItemTitle: "",
         newItemBody: "",
-        error: ""
+        error: "All fields are required."
 
     }),
     methods: {
@@ -59,9 +62,10 @@ export default {
             })
                 .then((response) => {
                     this.show = true
+                    this.resetVal()
                 }).catch(err => {
-                    this.error = err;
-                });
+                    this.error = err
+                })
         },
         deleteItem(id, index) {
             this.users.splice(index, 1);
@@ -70,6 +74,12 @@ export default {
         editItem(titleToBeUpdated, bodyToBeUpdated, id, index) {
             this.users[index].body = bodyToBeUpdated
             this.users[index].title = titleToBeUpdated
+        },
+        resetVal() {
+            this.newItemUserId = 0
+            this.newItemTitle = ""
+            this.newItemBody = ""
+            this.error = ""
         }
     },
     mounted() {

@@ -20,8 +20,10 @@
                 <p class="container__card__content__body">{{ capitalized(body) }}</p>
             </div>
             <form class="container__card__edit-form" v-else>
-                <input class="container__card__edit-form__title" v-model="titleUpdated" :placeholder=title />
-                <textarea class="container__card__edit-form__body" v-model="bodyUpdated" :placeholder="body"></textarea>
+                <input class="container__card__edit-form__title" v-model="titleUpdated"
+                    :placeholder=capitalized(title) />
+                <textarea class="container__card__edit-form__body" v-model="bodyUpdated"
+                    :placeholder=capitalized(body)></textarea>
                 <p class="container__card__edit-form_error">{{ this.error }}</p>
                 <div class="save" @click="edit(id, index)">Save</div>
             </form>
